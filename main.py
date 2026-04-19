@@ -15,28 +15,9 @@ from dataclasses import dataclass
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
-from boids import Config, Flock
+from boids import Config, Flock, polarisation
 
 matplotlib.use("svg")  # non-interactive backend (no window needed)
-
-
-# ---------------------------------------------------------------------------
-# Inline polarisation helper
-# ---------------------------------------------------------------------------
-# The full metrics module comes in Week 3. For now, define polarisation here
-# so we can sanity-check without it.
-
-def polarisation(flock: Flock) -> float:
-    """
-    Polarisation order parameter (Vicsek et al. 1995).
-
-    Magnitude of the mean unit velocity vector over all boids.
-    0.0 = completely disordered; 1.0 = perfect alignment.
-    """
-    # Divide each velocity by its own magnitude to get unit vectors, then take the mean and its magnitude.
-    unit_vels = flock.velocities / np.linalg.vector_norm(flock.velocities, axis=1, keepdims=True)
-    return float(np.linalg.norm(unit_vels.mean(axis=0)))
-
 
 
 @dataclass
@@ -111,6 +92,9 @@ def save_snapshot(snapshots: list[SnapshotData], filename: str = "plots/sanity_c
     print(f"  Snapshot saved: {filename}")
 
 def main() -> None:
+    """
+    Run a single simulation and save snapshots
+    """
     config = Config(
         n                 = 80,
         width             = 3000.0,

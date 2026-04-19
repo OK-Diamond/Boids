@@ -1,5 +1,5 @@
 """
-simulation.py — Core Boids engine.
+Core Boids functionality
 
 Design notes
 ------------
@@ -116,7 +116,7 @@ class Flock:
     def __init__(self, config: Config) -> None:
         self.config = config
         self._rng = np.random.default_rng(config.seed)
-        
+
         self.positions = np.empty((config.n, 2), dtype=float)
         self.velocities = np.empty((config.n, 2), dtype=float)
         for i in range(config.n):
